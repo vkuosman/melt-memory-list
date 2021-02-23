@@ -63,10 +63,10 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         return list
     }
 
-    fun deleteData() : MutableList<ReminderClass>{
+    fun deleteData(idIn: String) : MutableList<ReminderClass>{
         var list : MutableList<ReminderClass> = ArrayList()
         val db = this.writableDatabase
-        db.delete(TABLE_NAME, null, null)
+        db.delete(TABLE_NAME, COL_ID+"=?", arrayOf(idIn))
         return list
         db.close()
     }

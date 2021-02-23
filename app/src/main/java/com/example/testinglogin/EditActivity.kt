@@ -24,10 +24,9 @@ class EditActivity: AppCompatActivity() {
 
         removeButton.setOnClickListener {
             var db = DataBaseHandler(context)
-            db.deleteData()
-            editor.putInt("memoCounter", 1)
-            editor.apply()
-
+            val memoCounter = sharedPreferences.getInt("tempEditNum", 0)
+            val memoString = memoCounter.toString()
+            db.deleteData(memoString)
             findViewById<EditText>(R.id.titleInput).getText().clear()
             findViewById<EditText>(R.id.noteInput).getText().clear()
 
