@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_yellow"
+    android:visibility="visible"
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/numInputMain"
+        android:layout_width="335dp"
+        android:layout_height="41dp"
+        android:background="@color/bt_yellow"
+        android:hint="Choose a reminder number:"
+        android:textColor="@color/lg_red"
+        android:textColorHint="@color/lg_red"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MemoryList" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineDrd"
+        android:layout_width="420dp"
+        android:layout_height="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineLrd"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/lg_red" />
+
+    <Button
+        android:id="@+id/memoButtonMain"
+        android:layout_width="157dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:backgroundTint="@color/bt_red"
+        android:text="ADD MEMO"
+        android:textAlignment="center"
+        android:textColor="@color/lg_red"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MemoryList" />
+
+    <Button
+        android:id="@+id/editButtonMain"
+        android:layout_width="157dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/bt_red"
+        android:text="EDIT MEMO"
+        android:textAlignment="center"
+        android:textColor="@color/lg_red"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MemoryList" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineYlw"
+        android:layout_width="411dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/memoButtonMain"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/bt_yellow" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineLrd"
+        android:layout_width="443dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineYlw"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/bt_red" />
+
+    <ListView
+        android:id="@+id/MemoryList"
+        android:layout_width="374dp"
+        android:layout_height="327dp"
+        android:layout_marginTop="144dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="135dp"
+        android:layout_height="138dp"
+        app:layout_constraintBottom_toTopOf="@+id/MemoryList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/account_icon" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

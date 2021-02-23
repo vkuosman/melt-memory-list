@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_yellow"
+    android:visibility="visible"
+    tools:context=".LoginActivity">
+
+    <Button
+        android:id="@+id/removeButton"
+        android:layout_width="215dp"
+        android:layout_height="52dp"
+        android:backgroundTint="@color/bt_red"
+        android:text="REMOVE"
+        android:textAlignment="center"
+        android:textColor="@color/lg_red"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addButton" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="215dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/bt_red"
+        android:text="EDIT"
+        android:textAlignment="center"
+        android:textColor="@color/lg_red"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineDrd" />
+
+    <EditText
+        android:id="@+id/noteInput"
+        android:layout_width="359dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/bt_yellow"
+        android:hint="You can input new info here:"
+        android:textColor="@color/lg_red"
+        android:textColorHint="@color/lg_red"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleInput" />
+
+    <EditText
+        android:id="@+id/titleInput"
+        android:layout_width="360dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="256dp"
+        android:background="@color/bt_yellow"
+        android:hint="You can input the new title here:"
+        android:textColor="@color/lg_red"
+        android:textColorHint="@color/lg_red"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineYlw"
+        android:layout_width="411dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noteInput"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/bt_yellow" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineLrd"
+        android:layout_width="443dp"
+        android:layout_height="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineYlw"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/bt_red" />
+
+    <ImageView
+        android:id="@+id/PlaceholderLineDrd"
+        android:layout_width="420dp"
+        android:layout_height="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineLrd"
+        app:srcCompat="@drawable/background"
+        app:tint="@color/lg_red" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
