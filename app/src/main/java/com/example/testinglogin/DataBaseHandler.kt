@@ -23,6 +23,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     }
 
     fun insertData(rem: ReminderClass) {
+        // THis function is used to insert data into the database.
         val db = this.writableDatabase
         var cv = ContentValues()
         cv.put(COL_TITLE, rem.name)
@@ -40,6 +41,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
         }
     }
     fun readData() : MutableList<ReminderClass>{
+        // This function is used to read data from the database.
         var list : MutableList<ReminderClass> = ArrayList()
 
         val db = this.readableDatabase
@@ -64,6 +66,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     }
 
     fun deleteData(idIn: String) : MutableList<ReminderClass>{
+        // This function is used to delete existing entries in the database.
         var list : MutableList<ReminderClass> = ArrayList()
         val db = this.writableDatabase
         db.delete(TABLE_NAME, COL_ID+"=?", arrayOf(idIn))
@@ -72,6 +75,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     }
 
     fun editData(titleIn: String, messIn: String, idIn: String) : MutableList<ReminderClass>{
+        // This function is used to edit existing data.
         var list : MutableList<ReminderClass> = ArrayList()
         val db = this.writableDatabase
         val cv = ContentValues()

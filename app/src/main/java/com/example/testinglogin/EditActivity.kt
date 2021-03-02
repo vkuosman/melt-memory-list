@@ -54,7 +54,9 @@ class EditActivity: AppCompatActivity() {
                 finish()
                 startActivity(intent)
             } else {
+
                 Toast.makeText(context, "Please give the new title and message.", Toast.LENGTH_SHORT).show()
+
             }
         }
     }
