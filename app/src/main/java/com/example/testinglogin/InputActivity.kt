@@ -9,12 +9,20 @@ import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    companion object {
+        const val KEY_TITLE = "key_title"
+        const val KEY_NOTE = "key_note"
+        const val KEY_LIST = "key_list"
+        const val KEY_NUM = "key_num"
+    }
 
     var day = 0
     var month = 0
@@ -96,10 +104,6 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
                 // Debug
                 Log.i("MYTAG", "Given year: $savedYear, Given month: $savedMonth, Given day: $savedDay, Given hour: $savedHour, Given minutes: $savedMinute, Current date: $curDateTime, New date: $newDateTime, Difference in minutes: $diffMinutes")
 
-                // Giving the timer number to the Worker
-                editor.putString("newTimerNum", counterStr)
-                editor.apply()
-
                 // Here we set up the notification
                 setOneTimeNotification(titleTest, noteTest, counterStr, diffMinutes)
 
@@ -140,10 +144,19 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
     }
 
     private fun setOneTimeNotification(title: String, note: String, counter: String, minutes: Long) {
-        val notificationRequest: OneTimeWorkRequest = OneTimeWorkRequest.Builder(ReminderWorker::class.java)
-            .setInitialDelay(minutes, TimeUnit.MINUTES)
-            .build()
+        val data: Data = Data.Builder()
+                .putString(KEY_TITLE, title)
+                .putString(KEY_NOTE, note)
+                .putString(KEY_NUM, counter)
+                .build()
+        val notificationRequest: OneTimeWorkRequest = OneTimeWorkRequest
+                .Builder(ReminderWorker::class.java)
+                .addTag(counter)
+                .setInputData(data)
+                .setInitialDelay(minutes, TimeUnit.MINUTES)
+                .build()
         WorkManager.getInstance(applicationContext).enqueue(notificationRequest)
+
         // Setting the reminder information
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
@@ -155,21 +168,6 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
             timerList = timerList + ",$counter"
             editor.putString("timerList", timerList)
         }
-
-        //var testArray = arrayOf("1", "2", "3")
-        //var arrayStr = testArray.joinToString()
-        //arrayStr = arrayStr.replace("\\s".toRegex(), "")
-        //val strs = arrayStr.split(",").toTypedArray()
-        //var arrayStr2 = strs.joinToString()
-        //arrayStr2 = arrayStr2.replace("\\s".toRegex(), "")
-
-        // Debug
-        //Log.i("MYTAG","TIMERLIST: $timerList")
-        //Log.i("MYTAG","STR TEST: $arrayStr")
-        //Log.i("MYTAG","Back to array: $arrayStr2")
-
-        editor.putString("newTitle", title)
-        editor.putString("newNote", note)
         editor.apply()
     }
 }

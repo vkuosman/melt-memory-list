@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Log.i("MYTAG","Necessary notifications now should be hidden: $timerList")
+        Log.i("MYTAG","Necessary notifications should now be hidden: $timerList")
 
         listView.adapter = CustomAdapter(this, titleArray, messArray, idArray)
 
