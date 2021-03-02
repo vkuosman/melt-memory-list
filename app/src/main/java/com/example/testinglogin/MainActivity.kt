@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
 
         val memButton = findViewById<Button>(R.id.memoButtonMain)
         val editButton = findViewById<Button>(R.id.editButtonMain)
+        val refButton = findViewById<Button>(R.id.refreshButton)
         val numInput = findViewById<EditText>(R.id.numInputMain)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
         val listView = findViewById<ListView>(R.id.MemoryList)
 
@@ -45,6 +47,8 @@ class MainActivity : AppCompatActivity() {
         var titleArray = arrayListOf<String>()
         var messArray = arrayListOf<String>()
         var idArray = arrayListOf<Int>()
+        val viewCheck = sharedPreferences.getString("viewCheck", "0")
+        Log.i("MYTAG","The viewing setting is $viewCheck")
         for (i in 0..data.size - 1) {
             var checker = true
             if (strs != null) {
@@ -56,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            if (checker) {
+            if (checker || viewCheck == "1") {
                 titleArray.add(data.get(i).name)
                 messArray.add(data.get(i).mess)
             }
@@ -68,6 +72,21 @@ class MainActivity : AppCompatActivity() {
 
         memButton.setOnClickListener {
             val intent = Intent(this, InputActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
+        refButton.setOnClickListener {
+            val newView = sharedPreferences.getString("viewCheck", "0")
+            if (newView == "0") {
+                Log.i("MYTAG","The viewing settings have been adjusted: 1")
+                editor.putString("viewCheck", "1")
+            } else {
+                Log.i("MYTAG","The viewing setting have been adjusted: 0")
+                editor.putString("viewCheck", "0")
+            }
+            editor.apply()
+            val intent = Intent(this, MainActivity::class.java)
             finish()
             startActivity(intent)
         }

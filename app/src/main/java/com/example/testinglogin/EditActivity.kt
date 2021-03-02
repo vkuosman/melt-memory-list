@@ -13,7 +13,6 @@ class EditActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
-
         val context = this
         var db = DataBaseHandler(context)
         val titleIn = findViewById<EditText>(R.id.titleInput)
