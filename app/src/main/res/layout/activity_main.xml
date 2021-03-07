@@ -61,6 +61,20 @@
         app:layout_constraintTop_toBottomOf="@+id/MemoryList" />
 
     <Button
+        android:id="@+id/locationButton"
+        android:layout_width="120dp"
+        android:layout_height="51dp"
+        android:backgroundTint="@color/bt_red"
+        android:text="LOCATION"
+        android:textAlignment="center"
+        android:textColor="@color/lg_red"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/editButtonMain"
+        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintStart_toEndOf="@+id/memoButtonMain"
+        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineDrd" />
+
+    <Button
         android:id="@+id/editButtonMain"
         android:layout_width="120dp"
         android:layout_height="51dp"

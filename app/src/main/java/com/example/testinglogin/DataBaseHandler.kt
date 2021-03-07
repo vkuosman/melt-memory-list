@@ -68,8 +68,22 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
     fun deleteData(idIn: String) : MutableList<ReminderClass>{
         // This function is used to delete existing entries in the database.
         var list : MutableList<ReminderClass> = ArrayList()
-        val db = this.writableDatabase
+        var db = this.writableDatabase
+        var cv = ContentValues()
         db.delete(TABLE_NAME, COL_ID+"=?", arrayOf(idIn))
+        val idInt = idIn.toInt()
+        var counter = idInt + 1
+        var data = readData()
+        while (counter <= data.size) {
+            db = this.writableDatabase
+            cv = ContentValues()
+            var fic = counter - 1
+            var idStr = fic.toString()
+            cv.put(COL_ID, idStr)
+            db.update("Reminders", cv, "_id = ?", arrayOf(idStr))
+            counter += 1
+            db.close()
+        }
         return list
         db.close()
     }
