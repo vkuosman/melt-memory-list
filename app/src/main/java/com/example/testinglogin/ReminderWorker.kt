@@ -40,9 +40,9 @@ class ReminderWorker(context: Context, params: WorkerParameters): Worker(context
     @RequiresApi(Build.VERSION_CODES.O)
     override fun doWork(): Result {
 
-        val newTitle = inputData.getString(InputActivity.KEY_TITLE)
-        val newNote = inputData.getString(InputActivity.KEY_NOTE)
-        val counter = inputData.getString(InputActivity.KEY_NUM)
+        val newTitle = inputData.getString(MapsActivity.KEY_TITLE)
+        val newNote = inputData.getString(MapsActivity.KEY_NOTE)
+        val counter = inputData.getString(MapsActivity.KEY_NUM)
 
         if (newTitle != null && newNote != null && counter != null) {
             sendNotification(newTitle, newNote, counter)

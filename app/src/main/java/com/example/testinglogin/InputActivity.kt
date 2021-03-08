@@ -17,13 +17,6 @@ import java.util.concurrent.TimeUnit
 
 class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
-    companion object {
-        const val KEY_TITLE = "key_title"
-        const val KEY_NOTE = "key_note"
-        const val KEY_LIST = "key_list"
-        const val KEY_NUM = "key_num"
-    }
-
     var day = 0
     var month = 0
     var year = 0
@@ -47,7 +40,6 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
         // Forgetting this line may cause major headaches
         sharedPreferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
 
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
         val titleIn = findViewById<EditText>(R.id.titleInput)
         val noteIn = findViewById<EditText>(R.id.noteInput)
         val addButton = findViewById<Button>(R.id.addButton)
@@ -83,14 +75,6 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
 
                 titleTest = counterStr + ": " + titleTest
 
-                var db = DataBaseHandler(context)
-                var rem = ReminderClass(titleTest, noteTest, counterStr)
-
-                // Here we insert the data to the database
-                db.insertData(rem)
-                editor.putInt("memoCounter", memoCounter + 1)
-                editor.apply()
-
                 // Calculating timer
                 var curDate = Calendar.getInstance()
                 var newDate = curDate.clone() as Calendar
@@ -104,14 +88,15 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
                 // Debug
                 Log.i("MYTAG", "Given year: $savedYear, Given month: $savedMonth, Given day: $savedDay, Given hour: $savedHour, Given minutes: $savedMinute, Current date: $curDateTime, New date: $newDateTime, Difference in minutes: $diffMinutes")
 
-                // Here we set up the notification
-                setOneTimeNotification(titleTest, noteTest, counterStr, diffMinutes)
-
                 // Here we reset the EditTexts. The timing could be improved.
                 findViewById<EditText>(R.id.titleInput).getText().clear()
                 findViewById<EditText>(R.id.noteInput).getText().clear()
 
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this@InputActivity, MapsActivity::class.java)
+                intent.putExtra("TitleTest", titleTest)
+                    .putExtra("NoteTest", noteTest)
+                    .putExtra("CounterStr", counterStr)
+                    .putExtra("DiffMinutes", diffMinutes.toString())
                 finish()
                 startActivity(intent)
             }
@@ -141,34 +126,6 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
         savedHour = hourOfDay
         savedMinute = minute
-    }
-
-    private fun setOneTimeNotification(title: String, note: String, counter: String, minutes: Long) {
-        val data: Data = Data.Builder()
-                .putString(KEY_TITLE, title)
-                .putString(KEY_NOTE, note)
-                .putString(KEY_NUM, counter)
-                .build()
-        val notificationRequest: OneTimeWorkRequest = OneTimeWorkRequest
-                .Builder(ReminderWorker::class.java)
-                .addTag(counter)
-                .setInputData(data)
-                .setInitialDelay(minutes, TimeUnit.MINUTES)
-                .build()
-        WorkManager.getInstance(applicationContext).enqueue(notificationRequest)
-
-        // Setting the reminder information
-        val editor: SharedPreferences.Editor = sharedPreferences.edit()
-
-        // Here we retrieve the list of reminders with ongoing timers
-        var timerList = sharedPreferences.getString("timerList", "")
-        if (timerList.isNullOrEmpty() || timerList.isBlank()){
-            editor.putString("timerList", counter)
-        } else {
-            timerList = timerList + ",$counter"
-            editor.putString("timerList", timerList)
-        }
-        editor.apply()
     }
 }
 
