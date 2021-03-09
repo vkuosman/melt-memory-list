@@ -86,7 +86,14 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
                 var diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diff);
 
                 // Debug
-                Log.i("MYTAG", "Given year: $savedYear, Given month: $savedMonth, Given day: $savedDay, Given hour: $savedHour, Given minutes: $savedMinute, Current date: $curDateTime, New date: $newDateTime, Difference in minutes: $diffMinutes")
+                Log.i("MYTAG", "Given year: $savedYear, " +
+                        "Given month: $savedMonth, " +
+                        "Given day: $savedDay, " +
+                        "Given hour: $savedHour, " +
+                        "Given minutes: $savedMinute, " +
+                        "Current date: $curDateTime, " +
+                        "New date: $newDateTime, " +
+                        "Difference in minutes before geofence: $diffMinutes")
 
                 // Here we reset the EditTexts. The timing could be improved.
                 findViewById<EditText>(R.id.titleInput).getText().clear()

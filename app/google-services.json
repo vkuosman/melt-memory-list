@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "614443384335",
+    "project_id": "melt-memory-list-4909d",
+    "storage_bucket": "melt-memory-list-4909d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614443384335:android:740e6d37abfd8f1f9ced7a",
+        "android_client_info": {
+          "package_name": "com.example.testinglogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614443384335-sfo6lo0im8ndflk74eodkc049cb48p77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi0U9F6d6Q66X9Rro8WjbZjw8o5AyQXhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614443384335-sfo6lo0im8ndflk74eodkc049cb48p77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -40,7 +40,7 @@ class DataBaseHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE
 
         }
     }
-    fun readData() : MutableList<ReminderClass>{
+    fun readData(): MutableList<ReminderClass>{
         // This function is used to read data from the database.
         var list : MutableList<ReminderClass> = ArrayList()
 

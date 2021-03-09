@@ -18,8 +18,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.ActivityCompat
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 
 lateinit var sharedPreferences: SharedPreferences
 
