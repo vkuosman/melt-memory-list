@@ -6,57 +6,30 @@
     android:layout_height="match_parent"
     android:background="@color/bg_yellow"
     android:visibility="visible"
-    tools:context=".LoginActivity">
+    tools:context=".PassActivity">
 
     <Button
         android:id="@+id/addButton"
         android:layout_width="215dp"
         android:layout_height="52dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/bt_red"
-        android:text="ADD MEMO"
+        android:text="Apply"
         android:textAlignment="center"
         android:textColor="@color/lg_red"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineDrd" />
-
-    <Button
-        android:id="@+id/dateButton"
-        android:layout_width="215dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="100dp"
-        android:backgroundTint="@color/bt_red"
-        android:text="ADD DATE"
-        android:textAlignment="center"
-        android:textColor="@color/lg_red"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/timeButton"
-        android:layout_width="215dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/bt_red"
-        android:text="ADD TIME"
-        android:textAlignment="center"
-        android:textColor="@color/lg_red"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dateButton" />
+        app:layout_constraintTop_toBottomOf="@+id/newPassInput" />
 
     <EditText
         android:id="@+id/oldPassInput"
+        android:inputType="textPassword"
         android:layout_width="335dp"
         android:layout_height="41dp"
         android:layout_marginTop="20dp"
         android:background="@color/bt_yellow"
-        android:hint="Note info:"
+        android:hint="Current password:"
         android:textColor="@color/lg_red"
         android:textColorHint="@color/lg_red"
         android:textSize="24sp"
@@ -65,12 +38,27 @@
         app:layout_constraintTop_toBottomOf="@+id/oldNameInput" />
 
     <EditText
+        android:id="@+id/newPassInput"
+        android:inputType="textPassword"
+        android:layout_width="335dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/bt_yellow"
+        android:hint="New password:"
+        android:textColor="@color/lg_red"
+        android:textColorHint="@color/lg_red"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/oldPassInput" />
+
+    <EditText
         android:id="@+id/oldNameInput"
         android:layout_width="335dp"
         android:layout_height="41dp"
-        android:layout_marginTop="256dp"
+        android:layout_marginTop="148dp"
         android:background="@color/bt_yellow"
-        android:hint="Note title:"
+        android:hint="Current name:"
         android:textColor="@color/lg_red"
         android:textColorHint="@color/lg_red"
         android:textSize="24sp"
@@ -82,11 +70,11 @@
         android:id="@+id/PlaceholderLineYlw"
         android:layout_width="411dp"
         android:layout_height="34dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="192dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/oldPassInput"
+        app:layout_constraintTop_toBottomOf="@+id/addButton"
         app:srcCompat="@drawable/background"
         app:tint="@color/bt_yellow" />
 

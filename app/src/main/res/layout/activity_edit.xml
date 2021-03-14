@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/PlaceholderLineDrd" />
 
     <EditText
-        android:id="@+id/noteInput"
+        android:id="@+id/oldPassInput"
         android:layout_width="359dp"
         android:layout_height="39dp"
         android:layout_marginTop="20dp"
@@ -47,10 +47,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/oldNameInput" />
 
     <EditText
-        android:id="@+id/titleInput"
+        android:id="@+id/oldNameInput"
         android:layout_width="360dp"
         android:layout_height="39dp"
         android:layout_marginTop="256dp"
@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteInput"
+        app:layout_constraintTop_toBottomOf="@+id/oldPassInput"
         app:srcCompat="@drawable/background"
         app:tint="@color/bt_yellow" />
 

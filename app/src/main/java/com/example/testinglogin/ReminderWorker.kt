@@ -1,5 +1,6 @@
 package com.example.testinglogin
 
+import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -9,6 +10,7 @@ import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
@@ -16,18 +18,14 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-
-
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.renderscript.ScriptGroup
-import android.system.Os.remove
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.core.app.ActivityCompat
+import com.google.android.gms.location.Geofence
+import com.google.android.gms.location.GeofencingClient
+import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 
 
 class ReminderWorker(context: Context, params: WorkerParameters): Worker(context, params) {
@@ -42,11 +40,16 @@ class ReminderWorker(context: Context, params: WorkerParameters): Worker(context
 
         val newTitle = inputData.getString(MapsActivity.KEY_TITLE)
         val newNote = inputData.getString(MapsActivity.KEY_NOTE)
-        val counter = inputData.getString(MapsActivity.KEY_NUM)
+        val keyCounter = inputData.getString(MapsActivity.KEY_NUM)
+        val X = inputData.getString(MapsActivity.KEY_X)
+        val Y = inputData.getString(MapsActivity.KEY_Y)
+        val minutes = inputData.getString(MapsActivity.KEY_MIN)
+        var location = LatLng(X!!.toDouble(), Y!!.toDouble())
 
-        if (newTitle != null && newNote != null && counter != null) {
-            sendNotification(newTitle, newNote, counter)
-        }
+        lateinit var geofencingClient: GeofencingClient
+        geofencingClient = LocationServices.getGeofencingClient(applicationContext)
+        Log.i("MYTAG", "doWork: $keyCounter")
+        createGeofence(location, newTitle!!, newNote!!, keyCounter!!, minutes!!, geofencingClient)
         return Result.success()
     }
 
@@ -103,5 +106,50 @@ class ReminderWorker(context: Context, params: WorkerParameters): Worker(context
         editor.apply()
         notificationManager.notify(remCounter.toInt(), builder.build())
 
+    }
+
+    private fun createGeofence(
+            location: LatLng,
+            title: String,
+            note: String,
+            counter: String,
+            minutes: String,
+            geofencingClient: GeofencingClient ) {
+        Log.i("MYTAG", "Starting to create a geofence!")
+        Log.i("MYTAG", "Counter in worker $counter")
+        val geofence = Geofence.Builder()
+                .setRequestId(GEOFENCE_ID)
+                .setCircularRegion(location.latitude, location.longitude, GEOFENCE_RADIUS.toFloat())
+                .setExpirationDuration(GEOFENCE_EXPIRATION.toLong())
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER
+                        or Geofence.GEOFENCE_TRANSITION_DWELL)
+                . setLoiteringDelay(GEOFENCE_DWELL_DELAY)
+                .build()
+
+        val geofenceRequest = GeofencingRequest.Builder()
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                .addGeofence(geofence)
+                .build()
+
+        Log.i("MYTAG", "INTENT")
+        val intent = Intent(applicationContext, GeofenceReceiver::class.java)
+                .putExtra("title", title)
+                .putExtra("message", note)
+                .putExtra("key", counter)
+                .putExtra("minutes", minutes)
+
+
+        val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        if (ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Have to make sure this is checked before?
+            return
+        }
+        geofencingClient.addGeofences(geofenceRequest, pendingIntent)
     }
 }

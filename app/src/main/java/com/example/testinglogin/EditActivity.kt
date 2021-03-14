@@ -15,8 +15,8 @@ class EditActivity: AppCompatActivity() {
         setContentView(R.layout.activity_edit)
         val context = this
         var db = DataBaseHandler(context)
-        val titleIn = findViewById<EditText>(R.id.titleInput)
-        val noteIn = findViewById<EditText>(R.id.noteInput)
+        val titleIn = findViewById<EditText>(R.id.oldNameInput)
+        val noteIn = findViewById<EditText>(R.id.oldPassInput)
         val removeButton = findViewById<Button>(R.id.removeButton)
         val editButton = findViewById<Button>(R.id.addButton)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
@@ -26,8 +26,8 @@ class EditActivity: AppCompatActivity() {
             val memoCounter = sharedPreferences.getInt("tempEditNum", 0)
             val memoString = memoCounter.toString()
             db.deleteData(memoString)
-            findViewById<EditText>(R.id.titleInput).getText().clear()
-            findViewById<EditText>(R.id.noteInput).getText().clear()
+            findViewById<EditText>(R.id.oldNameInput).getText().clear()
+            findViewById<EditText>(R.id.oldPassInput).getText().clear()
 
             val intent = Intent(this, MainActivity::class.java)
             finish()
@@ -46,8 +46,8 @@ class EditActivity: AppCompatActivity() {
             if (titleTest != "" && noteTest != "") {
                 db.editData(titleTest, noteTest, memoString)
 
-                findViewById<EditText>(R.id.titleInput).getText().clear()
-                findViewById<EditText>(R.id.noteInput).getText().clear()
+                findViewById<EditText>(R.id.oldNameInput).getText().clear()
+                findViewById<EditText>(R.id.oldPassInput).getText().clear()
 
                 val intent = Intent(this, MainActivity::class.java)
                 finish()

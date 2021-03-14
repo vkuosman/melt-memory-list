@@ -45,26 +45,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         const val KEY_LIST = "key_list"
         const val KEY_NUM = "key_num"
         const val KEY_MIN = "key_min"
-
-        fun showNotification(context: Context, message: String, title: String, key: String, minutes: String) {
-            val title = title
-            val note = message
-            val counter = key
-            val minutes = minutes.toLong()
-            val data: Data = Data.Builder()
-                .putString(KEY_TITLE, title)
-                .putString(KEY_NOTE, note)
-                .putString(KEY_NUM, counter)
-                .build()
-            val notificationRequest: OneTimeWorkRequest = OneTimeWorkRequest
-                .Builder(ReminderWorker::class.java)
-                .addTag(counter!!)
-                .setInputData(data)
-                .setInitialDelay(minutes!!, TimeUnit.MINUTES)
-                .build()
-            Log.i("MYTAG", "$minutes")
-            WorkManager.getInstance(context).enqueue(notificationRequest)
-        }
+        const val KEY_X = "key_x"
+        const val KEY_Y = "key_y"
     }
 
     private lateinit var map: GoogleMap
@@ -99,6 +81,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        Log.i("MYTAG", "Reached MapsActivity")
         map = googleMap
 
         if (!isLocationPermissionGranted()) {
@@ -169,7 +152,22 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             val editor: SharedPreferences.Editor = sharedPreferences.edit()
             var db = DataBaseHandler(context)
 
-            createGeofence(it, title!!, note!!, counter!!, minutes!!, geofencingClient)
+            val data: Data = Data.Builder()
+                    .putString(KEY_TITLE, title)
+                    .putString(KEY_NOTE, note)
+                    .putString(KEY_NUM, counter)
+                    .putString(KEY_X, X.toString())
+                    .putString(KEY_Y, Y.toString())
+                    .putString(KEY_MIN, minutes)
+                    .build()
+            val notificationRequest: OneTimeWorkRequest = OneTimeWorkRequest
+                    .Builder(ReminderWorker::class.java)
+                    .addTag(counter!!)
+                    .setInputData(data)
+                    .setInitialDelay(minutes!!.toLong(), TimeUnit.MINUTES)
+                    .build()
+            Log.i("MYTAG", "Giving work request:")
+            WorkManager.getInstance(context).enqueue(notificationRequest)
 
             if (title != null && note!= null && counter != null && minutes != null) {
                 var rem = ReminderClass(title, note, counter, 0, X.toString(), Y.toString())
@@ -194,59 +192,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    private fun createGeofence(
-        location: LatLng,
-        title: String,
-        note: String,
-        counter: String,
-        minutes: String,
-        geofencingClient: GeofencingClient, ) {
-        Log.i("MYTAG", "Starting to create a geofence!")
-        val geofence = Geofence.Builder()
-            .setRequestId(GEOFENCE_ID)
-            .setCircularRegion(location.latitude, location.longitude, GEOFENCE_RADIUS.toFloat())
-            .setExpirationDuration(GEOFENCE_EXPIRATION.toLong())
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER
-                    or Geofence.GEOFENCE_TRANSITION_DWELL)
-            . setLoiteringDelay(GEOFENCE_DWELL_DELAY)
-            .build()
-
-        val geofenceRequest = GeofencingRequest.Builder()
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            .addGeofence(geofence)
-            .build()
-
-        val intent = Intent(this, GeofenceReceiver::class.java)
-            .putExtra("title", title)
-            .putExtra("message", note)
-            .putExtra("key", counter)
-            .putExtra("minutes", minutes)
-
-
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            0,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            if (ContextCompat.checkSelfPermission(
-                    applicationContext,
-                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION),
-                    GEOFENCE_LOCATION_REQUEST_CODE)
-            } else {
-                Log.i("MYTAG", "Add geofence A")
-                geofencingClient.addGeofences(geofenceRequest, pendingIntent)
-            }
-        } else {
-            Log.i("MYTAG", "Add geofence B")
-            geofencingClient.addGeofences(geofenceRequest, pendingIntent)
-        }
-    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

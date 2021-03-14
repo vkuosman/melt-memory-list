@@ -2,16 +2,12 @@ package com.example.testinglogin
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -40,8 +36,8 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
         // Forgetting this line may cause major headaches
         sharedPreferences = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
 
-        val titleIn = findViewById<EditText>(R.id.titleInput)
-        val noteIn = findViewById<EditText>(R.id.noteInput)
+        val titleIn = findViewById<EditText>(R.id.oldNameInput)
+        val noteIn = findViewById<EditText>(R.id.oldPassInput)
         val addButton = findViewById<Button>(R.id.addButton)
         val timeButton: Button = findViewById<Button>(R.id.timeButton)
         val dateButton: Button = findViewById<Button>(R.id.dateButton)
@@ -96,8 +92,8 @@ class InputActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener, T
                         "Difference in minutes before geofence: $diffMinutes")
 
                 // Here we reset the EditTexts. The timing could be improved.
-                findViewById<EditText>(R.id.titleInput).getText().clear()
-                findViewById<EditText>(R.id.noteInput).getText().clear()
+                findViewById<EditText>(R.id.oldNameInput).getText().clear()
+                findViewById<EditText>(R.id.oldPassInput).getText().clear()
 
                 val intent = Intent(this@InputActivity, MapsActivity::class.java)
                 intent.putExtra("TitleTest", titleTest)

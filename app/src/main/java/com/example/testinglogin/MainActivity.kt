@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         val editButton = findViewById<Button>(R.id.editButtonMain)
         val refButton = findViewById<Button>(R.id.refreshButton)
         val numInput = findViewById<EditText>(R.id.numInputMain)
-        val locButton = findViewById<Button>(R.id.locationButton)
+        val imgClick = findViewById<ImageView>(R.id.imageView)
         val editor: SharedPreferences.Editor = sharedPreferences.edit()
 
         val listView = findViewById<ListView>(R.id.MemoryList)
@@ -124,6 +124,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        imgClick.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+
         editButton.setOnClickListener {
             val numIn: String = numInput.text.toString()
             if (numIn.isBlank() || numIn.isBlank()) {
@@ -142,10 +148,6 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
-        locButton.setOnClickListener {
-            getLocation()
-        }
-
     }
 
     private fun permissionCheck(permissionArray: Array<String>): Boolean {
@@ -156,112 +158,6 @@ class MainActivity : AppCompatActivity() {
         }
         return truthCheck
     }
-
-    private fun getLocation() {
-        val context = this
-
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        checkGps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-        if (checkGps || checkNetwork) {
-            // User has Gps / Network
-            if (checkNetwork) {
-
-                Log.i("MYTAG", "NETWORK")
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return
-                }
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 6000, 0F, object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        if (location != null) {
-                            networkLocation = location
-                            Log.i("MYTAG", "NWL: $location")
-                        }
-                    }
-
-                    // Not sure if these are needed.
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-                    }
-
-                    override fun onProviderEnabled(provider: String) {
-
-                    }
-
-                    override fun onProviderDisabled(provider: String) {
-
-                    }
-
-                })
-
-                val nvLocalLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                if (nvLocalLocation != null)
-                    networkLocation = nvLocalLocation
-            }
-            if (checkGps) {
-
-                Log.i("MYTAG", "GPS")
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return
-                }
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 0F, object : LocationListener {
-                    override fun onLocationChanged(location: Location) {
-                        if (location != null) {
-                            gpsLocation = location
-                            Log.i("MYTAG", "GPSL: $location")
-                        }
-                    }
-
-                    // Not sure if these are needed.
-                    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-
-                    }
-
-                    override fun onProviderEnabled(provider: String) {
-
-                    }
-
-                    override fun onProviderDisabled(provider: String) {
-
-                    }
-
-                })
-
-                val gpsLocalLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                if (gpsLocalLocation != null)
-                    gpsLocation = gpsLocalLocation
-            }
-
-            if(networkLocation!= null && gpsLocation!= null){
-                if(gpsLocation!!.accuracy < networkLocation!!.accuracy){
-                    Log.i("MYTAG", " GPS Latitude : " + gpsLocation!!.latitude)
-                    Log.i("MYTAG", " GPS Longitude : " + gpsLocation!!.longitude)
-                }
-                else {
-                    Log.i("MYTAG", " Network Latitude : " + networkLocation!!.latitude)
-                    Log.i("MYTAG", " Network Longitude : " + networkLocation!!.longitude)
-                }
-            }
-            else {
-                Log.i("MYTAG", "What?")
-            }
-
-        }
-        else {
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-        }
-    }
-
 
     private class CustomAdapter(context: Context, arrtitle: ArrayList<String>, arrmessage: ArrayList<String>, arrids: ArrayList<Int>): BaseAdapter() {
 
